@@ -3,7 +3,7 @@ name: Run Advent of Code Solutions
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   run_solutions:
