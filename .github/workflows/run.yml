@@ -1,0 +1,28 @@
+name: Run Advent of Code Solutions
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run_solutions:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Rust
+        uses: actions/setup-rust@v1
+
+      - name: Run Solutions
+        run: |
+          for folder in $(find . -maxdepth 1 -type d -name "day_*_*"); do
+            echo "Running solutions in $folder"
+            cd "$folder"
+            cargo run -q
+            echo ""
+            echo ""
+            cd ..
+          done
