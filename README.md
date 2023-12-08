@@ -10,6 +10,7 @@ This repository contains my solutions for Advent of Code 2023, written in Rust. 
 ## Project Structure
 
 - Each day's solution is organized into a separate Rust module (e.g., `day_01_01`, `day_02_01`, etc.).
+- Each folder contains a file called input.txt.
 
 ## Usage
 
