@@ -20,30 +20,26 @@ fn main() {
 
 fn process_game(game_string: &str) -> i32 {
     let split_game: Vec<&str> = game_string.split(':').map(|x| x.trim()).collect();
-    let game_id = split_game[0]
-        .parse::<i32>()
-        .expect("Invalid format in game ID"); // Non-recoverable error, so expect is okay
 
     // Split the game up into subgames
-    let all_valid = split_game[1]
+    let game_requirements = split_game[1]
         .split(';')
-        .all(|g| validate_sub_game(g.trim()));
+        .map(|g| count_sub_game_requirements(g.trim()))
+        .reduce(|acc,m| 
+            (std::cmp::max(acc.0, m.0), 
+            std::cmp::max(acc.1, m.1), 
+            std::cmp::max(acc.2, m.2)))
+        .expect("Failed split the game on ;");
 
-    if all_valid {
-        return game_id;
-    }
-    return 0;
+    return game_requirements.0 * game_requirements.1 * game_requirements.2;
 } 
 
-fn validate_sub_game(sub_game_string: &str) -> bool {
-    const RED_CUBE_COUNT: i32 = 12;
-    const GREEN_CUBE_COUNT: i32 = 13;
-    const BLUE_CUBE_COUNT: i32 = 14;
 
+fn count_sub_game_requirements(sub_game_string: &str) -> (i32, i32, i32) {
 
-    let mut red_remaining = RED_CUBE_COUNT;
-    let mut green_remaining = GREEN_CUBE_COUNT;
-    let mut blue_remaining = BLUE_CUBE_COUNT;
+    let mut red_count = 0;
+    let mut green_count = 0;
+    let mut blue_count = 0;
 
 
     // Split on comma
@@ -55,15 +51,11 @@ fn validate_sub_game(sub_game_string: &str) -> bool {
         let colour = split[1].trim();
 
         match colour {
-            "red" => red_remaining -= count,
-            "green" => green_remaining -= count,
-            "blue" => blue_remaining -= count,
+            "red" => red_count += count,
+            "green" => green_count += count,
+            "blue" => blue_count += count,
             _ => println!("Invalid colour: {colour}"),
         }
-        if red_remaining < 0 || green_remaining < 0 || blue_remaining < 0 
-        {
-            return false;
-        }
     }
-    return true;
+    return (red_count, green_count, blue_count);
 }
