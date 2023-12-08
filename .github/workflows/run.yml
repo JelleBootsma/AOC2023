@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v3 
       - name: Run Solutions
         run: |
-          for folder in $(find . -maxdepth 1 -type d -name "day_*_*"); do
+          for folder in $(find . -maxdepth 1 -type d -name "day_*_*" -printf "%p\n" | sort); do
             echo "Running solutions in $folder"
             cd "$folder"
             cargo run -q
