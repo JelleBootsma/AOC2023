@@ -1,7 +1,7 @@
 # Advent Of Code 2023 (AOC2023) - Rust
 
 
-This repository contains my solutions for Advent of Code 2023, written in Rust. I am using this as an opportunity to learn Rust and improve my programming skills.
+This repository contains my solutions for Advent of Code 2023, written in Rust, as I am using this as an opportunity to learn Rust.
 
 ## Advent Of Code
 
